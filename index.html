@@ -152,6 +152,19 @@ input[type=checkbox]{width:auto;margin:0 8px 0 0;accent-color:#2e9e3f}.kp{displa
 @keyframes tIn{from{opacity:0;transform:scale(.85)}}
 .teacher .buddy-speech{min-width:150px;margin-bottom:38px}.tname{display:block;text-align:center;font-weight:900;margin-top:8px;color:var(--mut)}
 .teacher .cutout{display:block;height:min(250px,34vh);width:auto;max-width:56vw;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35));animation:tIn .4s ease}
+.toast{position:fixed;left:50%;top:70px;transform:translate(-50%,-20px);background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:10px 16px;font-weight:800;z-index:50;opacity:0;transition:.35s;box-shadow:0 6px 20px rgba(0,0,0,.25);max-width:92vw;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
+.chip{padding:9px 14px;margin:4px;border:2px solid var(--line);border-bottom-width:4px;border-radius:12px;background:var(--bg);color:var(--ink);font:800 16px Nunito,sans-serif;cursor:pointer}.chip.on{border-color:var(--b)}.chip:disabled{opacity:.4}
+.bdans{min-height:58px;border-bottom:2px solid var(--line);margin:12px 0;padding:6px 0;display:flex;flex-wrap:wrap}.bdbank{display:flex;flex-wrap:wrap;margin-bottom:12px}
+.mt{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mt>div{display:flex;flex-direction:column;gap:8px}.mbtn{padding:13px 8px;border:2px solid var(--line);border-bottom-width:4px;border-radius:14px;background:var(--bg);color:var(--ink);font:800 15px Nunito,sans-serif;cursor:pointer}.mbtn.msel{border-color:var(--b);background:rgba(28,176,246,.14)}.mbtn.md{border-color:var(--g);background:rgba(88,204,2,.18);opacity:.7}
+.goalbar{display:flex;align-items:center;gap:12px;border:2px solid var(--line);border-bottom-width:4px;border-radius:16px;padding:10px 14px;margin:10px 0;cursor:pointer}.gbt{min-width:112px}.gbt small{display:block;color:var(--mut)}.gb{flex:1;height:14px;background:var(--line);border-radius:8px;overflow:hidden}.gb i{display:block;height:100%;background:var(--g);border-radius:8px}
+.banner{background:rgba(255,150,0,.15);border:2px solid #ff9600;border-radius:14px;padding:10px 14px;margin:10px 0;font-weight:800}
+.card2{border:2px solid var(--line);border-bottom-width:4px;border-radius:16px;padding:14px;margin:12px 0}.card2 p{margin:6px 0}.card2 pre{white-space:pre-wrap;font-size:12px;background:var(--bg);padding:8px;border-radius:8px;overflow-x:auto;text-align:left;user-select:all}
+.chart{display:flex;align-items:flex-end;gap:8px;height:150px;margin:10px 0}.col{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px}.col .bar{width:100%;background:var(--b);border-radius:8px 8px 0 0;min-height:3px}.col .bar.hit{background:var(--g)}.col small{font-size:11px;color:var(--mut)}.col em{font-style:normal;font-size:12px;color:var(--mut)}
+.stat4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.stat4>div{border:2px solid var(--line);border-radius:14px;text-align:center;padding:8px 2px}.stat4 b{display:block;font-size:20px}.stat4 small{color:var(--mut);font-size:11px}
+.mrow{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)}
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}.bdg{border:2px solid var(--line);border-radius:14px;padding:10px 4px;text-align:center}.bdg span{font-size:30px;display:block}.bdg b{font-size:13px}.bdg small{display:block;color:var(--mut);font-size:11px}.bdg.lock{opacity:.45;filter:grayscale(1)}
+.lrow{display:flex;align-items:center;gap:10px;padding:8px 10px;border-bottom:1px solid var(--line)}.lrow.me{background:rgba(28,176,246,.14);border-radius:12px}.lrow .rk{width:30px;text-align:center;font-weight:900}.lrow b{flex:1}
+.tip{padding:10px 4px 90px}.tip li{margin:8px 0}.chest .ico{font-size:32px}
 </style>
 </head>
 <body>
@@ -486,7 +499,7 @@ cur=n;if(KEEP)localStorage[S]=n;else delete localStorage[S];save();home()}
 function out(){SFX.click();cur=null;uid=tok=rt=null;delete localStorage[S];delete localStorage.gle_rt;authView()}
 /* ===== MEUS DADOS: apelido, backup, restauração, status ===== */
 const synTxt=()=>cloud()?(SYN=="err"?"⚠️ Não deu para sincronizar agora. Seu progresso está salvo neste aparelho.":"☁️ Progresso salvo na sua conta (nuvem)."):"💾 Progresso salvo neste aparelho.";
-const dataCard=()=>`<div class=dcard><h3 class=sec>Meus dados</h3><div class=nk><input id=nk2 maxlength=16 placeholder="Seu apelido" value="${D.nick||""}"><button class="btn s" onclick="SFX.click();setNick()">Salvar</button></div><p class=mut id=syn>${synTxt()}</p><div class=bar2><button class="btn s b" onclick="SFX.click();backup()">Baixar backup</button><button class="btn s b" onclick="SFX.click();$('#imp').click()">Restaurar backup</button>${cloud()?'<button class="btn s b" onclick="SFX.click();save();setTimeout(()=>{$(\'#syn\').textContent=synTxt()},900)">Sincronizar agora</button>':""}<input id=imp type=file accept=".json,application/json" hidden onchange="restore(this.files[0]);this.value=''"></div></div>`;
+const dataCard=()=>`<div class=dcard><h3 class=sec>Meus dados</h3><div class=nk><input id=nk2 maxlength=16 placeholder="Seu apelido" value="${D.nick||""}"><button class="btn s" onclick="SFX.click();setNick()">Salvar</button></div><p class=mut id=syn>${synTxt()}</p><div class=bar2><button class="btn s b" onclick="SFX.click();backup()">Baixar backup</button><button class="btn s b" onclick="SFX.click();$('#imp').click()">Restaurar backup</button>${cloud()?'<button class="btn s b" onclick="SFX.click();save();setTimeout(()=>{$(\'#syn\').textContent=synTxt()},900)">Sincronizar agora</button>':""}<button class="btn s" onclick="out()">Sair da conta</button><input id=imp type=file accept=".json,application/json" hidden onchange="restore(this.files[0]);this.value=''"></div></div>`;
 function setNick(){D.nick=cl($("#nk2").value);save();shop()}
 function backup(){const b=new Blob([JSON.stringify({app:"grand-line-english",v:1,user:nm(),date:new Date().toISOString(),data:D},null,1)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="grand-line-backup-"+today()+".json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1e3)}
 function applyBackup(j){const d=j&&j.data;if(!d||typeof d.xp!="number"||typeof d.done!="object")return 0;const n=Object.assign(NEWD(),d);n.own=(n.own||[]).filter(x=>AV.some(a=>a[0]==x));if(!n.own.length)n.own=[AV[0][0]];if(!n.own.includes(n.av))n.av=n.own[0];U[cur].d=D=n;save();return 1}
@@ -511,11 +524,11 @@ exit:`<svg viewBox="0 0 24 24"><path d="M10 3H4v18h6v-2H6V5h4zm5 4l-1.4 1.4L16.2
 
 const nm=()=>(D&&D.nick)||cur.split("@")[0];
 const hdr=()=>`<div class=stick><div class=av onclick="SFX.click();shop()">${avs(D.av,42)}</div><b class=nm>${nm()}</b><span class=pill>${I.flame}${D.streak}</span><span class=pill>${I.gem}${D.gems}</span><span class=pill>${I.xp}${D.xp}</span><button class=snd-btn onclick="toggleMute()" title="Som">${muted?"🔇":"🔊"}</button></div>`;
-const nav=a=>`<nav>${[["home","learn","Aprender"],["aud","audio","Áudio"],["shop","shop","Avatares"],["out","exit","Sair"]].map(t=>`<a class="${a==t[0]?"on":""}" onclick="SFX.click();${t[0]}()">${I[t[1]]}<span>${t[2]}</span></a>`).join("")}</nav>`;
+const nav=a=>`<nav>${[["home","learn","Aprender"],["aud","audio","Áudio"],["prog","chart","Progresso"],["league","trophy","Liga"],["shop","shop","Avatares"]].map(t=>`<a class="${a==t[0]?"on":""}" onclick="SFX.click();${t[0]}()">${I[t[1]]}<span>${t[2]}</span></a>`).join("")}</nav>`;
 
-function home(){if(!cur||!U[cur]||cloud()&&!uid)return authView();D=U[cur].d;if(NK&&!D.nick){D.nick=NK;save()}NK="";
+function home(){if(!cur||!U[cur]||cloud()&&!uid)return authView();D=U[cur].d;if(NK&&!D.nick){D.nick=NK;save()}NK="";normD();
 const LC=[["#2e9e3f","#1f752c"],["#0f6d8c","#0a4d63"],["#6d28d9","#4c1d95"]];
-let h=hdr()+`<div class=chest onclick=daily()>${I.chest}<div><b>Baú Diário</b><small>Toque para resgatar +10 gemas</small></div></div>`;
+let h=hdr()+`<div class=chest onclick=daily()>${I.chest}<div><b>Baú Diário</b><small>Toque para resgatar +10 gemas</small></div></div>`+homeExtra();
 L.forEach((u,ui)=>{const c=LC[ui],nd=u.l.filter((l,li)=>D.done[ui+"-"+li]).length;
 h+=`<div class=unit style="--c:${c[0]};--d:${c[1]}"><div><small>Setor ${ui+1}</small><b>${u.n}</b></div><span>${nd}/${u.l.length}</span></div><div class=path>`;
 u.l.forEach((l,li)=>{const dn=D.done[ui+"-"+li],op=dn||li==0||D.done[ui+"-"+(li-1)],now=op&&!dn;
@@ -549,111 +562,198 @@ DL.forEach((d,i)=>{h+=`<div class=dl><div class=dh><b>${d[0]}</b><span><button c
 $("#app").innerHTML=h+nav("aud")}
 function allA(i,r=.85){if(!window.speechSynthesis)return alert("Seu navegador não tem voz sintetizada.");speechSynthesis.cancel();
 DL[i][1].forEach(l=>{const u=new SpeechSynthesisUtterance(l[0]);u.lang="en-US";u.rate=r;speechSynthesis.speak(u)});
-if(!D["a"+i]){D["a"+i]=1;D.xp+=5;D.gems+=2;save()}}
+if(!D["a"+i]){D["a"+i]=1;addXP(5);D.gems+=2;save()}}
 
-/* ===== LIÇÃO COM COMPANHEIRO ANIMADO E SONS ===== */
-const QUOTES_ASK = [
-  "Mantenha o foco. Escolha a resposta certa.",
-  "A precisão define quem domina esses mares.",
-  "Ouça com atenção e avance sem hesitar.",
-  "Cada acerto fortalece sua jornada."
-];
-const QUOTES_OK = [
-  "Execução limpa. Próximo alvo.",
-  "Acerto sólido. Continue avançando.",
-  "Boa leitura. Seguimos em frente."
-];
-const QUOTES_NO = [
-  "Falha registrada. Ajuste a mira na próxima.",
-  "Não perca a compostura. Veja a resposta correta.",
-  "Erros fazem parte da travessia."
-];
+/* ===== LIÇÃO: exercícios variados, revisão de erros, dicas, metas, conquistas e liga ===== */
+const QUOTES_ASK=["Mantenha o foco. Escolha a resposta certa.","A precisão define quem domina esses mares.","Ouça com atenção e avance sem hesitar.","Cada acerto fortalece sua jornada."];
+const QUOTES_OK=["Execução limpa. Próximo alvo.","Acerto sólido. Continue avançando.","Boa leitura. Seguimos em frente."];
+const QUOTES_NO=["Falha registrada. Ajuste a mira na próxima.","Não perca a compostura. Veja a resposta correta.","Erros fazem parte da travessia."];
+Object.assign(I,{chart:`<svg viewBox="0 0 24 24"><path d="M3 13h4v8H3zm7-6h4v14h-4zm7 3h4v11h-4z"/></svg>`,trophy:`<svg viewBox="0 0 24 24"><path d="M7 3h10v3h3v2a4 4 0 0 1-4 4 5 5 0 0 1-3 2.9V18h3v3H8v-3h3v-3.1A5 5 0 0 1 8 12 4 4 0 0 1 4 8V6h3zM6 8a2 2 0 0 0 1 1.7V8zm12 0h-1v1.7A2 2 0 0 0 18 8z"/></svg>`});
+const TIPS={
+"Pronomes":["Pronomes substituem o nome da pessoa: I (eu), you (você), he (ele), she (ela), we (nós), they (eles). Para coisas e animais usa-se it.",["I am a student — Eu sou estudante","She is my friend — Ela é minha amiga"]],
+"Possessivos":["my, your, his, her, our e their vêm ANTES do substantivo e não mudam de gênero nem de número.",["my book — meu livro","her bag — a bolsa dela"]],
+"Frases simples":["A estrutura básica é sujeito + verbo + complemento. Com he, she e it, o verbo no presente ganha -s.",["She has a cat — Ela tem um gato","He drinks water — Ele bebe água"]],
+"Perguntas":["Com o verbo to be, inverta a ordem: You are → Are you? Com outros verbos, use do ou does.",["Are you happy? — Você está feliz?","Do you speak English? — Você fala inglês?"]],
+"Passado":["Verbos regulares ganham -ed (visit → visited). Muitos comuns são irregulares (go → went). Para negar e perguntar, use did + verbo base.",["I went to the market — Eu fui ao mercado","Did you call me? — Você me ligou?"]],
+"Passado irregular":["Alguns verbos mudam de forma no passado: go → went, eat → ate, see → saw, take → took, come → came, buy → bought.",["She ate an apple — Ela comeu uma maçã","We saw a movie — Nós vimos um filme"]],
+"Passado 2":["Na negativa use didn't + verbo base (sem -ed). Na pergunta, Did + sujeito + verbo base.",["She didn't go to school — Ela não foi à escola","Did you finish the work? — Você terminou o trabalho?"]],
+"Futuro":["Use will + verbo para decisões e previsões, e going to para planos já decididos.",["It will rain tomorrow — Vai chover amanhã","I'm going to travel next year — Vou viajar no ano que vem"]],
+"Futuro com will":["will + verbo base é igual para todas as pessoas. A forma negativa é won't (will not).",["I will call you later — Ligo para você mais tarde","He won't come — Ele não virá"]],
+"Presente contínuo":["am / is / are + verbo com -ing mostra algo que está acontecendo agora.",["I am reading a book — Estou lendo um livro","It is raining now — Está chovendo agora"]],
+"Comparativos":["Adjetivos curtos ganham -er (fast → faster). Os longos usam more (more expensive). Compare com than.",["bigger than — maior que","more expensive than — mais caro que"]],
+"Superlativos":["Use the + adjetivo com -est (the tallest) ou the most + adjetivo longo (the most expensive).",["the best pizza — a melhor pizza","the most expensive hotel — o hotel mais caro"]],
+"Preposições":["in front of, behind, between, next to, under e above indicam posição de algo em relação a outra coisa.",["The cat is under the table — O gato está embaixo da mesa"]],
+"Verbos modais":["can, must, should, may e could vêm antes do verbo base, sem -s e sem to.",["You should rest — Você deveria descansar","I can swim — Eu sei nadar"]],
+"Perguntas WH":["What, Who, Where, When, Why, How e Which abrem perguntas. Depois vem do/does ou o verbo to be.",["Why are you late? — Por que você está atrasado?","When does the movie start? — Quando o filme começa?"]],
+"Condicionais":["If + presente, will + verbo (situação real). If + passado, would + verbo (situação imaginária).",["If she studies, she will pass — Se ela estudar, passará","If I had time, I would travel — Se eu tivesse tempo, viajaria"]],
+"Condicional 2":["Para o que não aconteceu: If + past perfect, would have + particípio. Em If I were you, usa-se were para todas as pessoas.",["If you had told me, I would have come — Se tivesse me contado, eu teria vindo"]],
+"Voz passiva":["be + particípio passado coloca o foco no que acontece, não em quem faz.",["The report was written by Ana — O relatório foi escrito por Ana","English is spoken worldwide — O inglês é falado no mundo todo"]],
+"Discurso indireto":["Ao relatar o que alguém disse, o tempo verbal costuma recuar: I am tired → He said that he was tired.",["She asked me where I lived — Ela me perguntou onde eu morava"]],
+"Present perfect":["have / has + particípio liga o passado ao presente. Usa-se com just (acabou de), already (já), since (desde) e for (há).",["She has just left — Ela acabou de sair","I have lived here for ten years — Moro aqui há dez anos"]],
+"Past perfect":["had + particípio indica uma ação que aconteceu ANTES de outra no passado.",["I had already left when she called — Eu já tinha saído quando ela ligou"]],
+"Futuro avançado":["will have + particípio = concluído até certo momento. be about to = prestes a. be supposed to = deveria.",["By next year, I will have graduated — Até o ano que vem, terei me formado","I'm about to leave — Estou prestes a sair"]],
+"Arrependimentos":["wish + past perfect lamenta o passado. should have + particípio significa deveria ter feito.",["I wish I had studied more — Queria ter estudado mais","She should have called me — Ela deveria ter me ligado"]],
+"Conectivos":["Moreover e Furthermore somam ideias; Nevertheless contrasta; Therefore e Consequently indicam consequência.",["Moreover, it is cheap — Além disso, é barato","Therefore, we left — Portanto, fomos embora"]],
+"Phrasal verbs":["Um phrasal verb é um verbo + partícula, com um sentido novo. Muitos aceitam o objeto no meio: turn it down.",["give up — desistir","find out — descobrir"]],
+"Phrasal verbs 2":["Phrasal verbs têm sentido próprio e não se traduzem palavra por palavra. Aprenda cada um em uma frase.",["call off the meeting — cancelar a reunião"]],
+"Phrasal verbs 3":["Alguns phrasal verbs têm objeto obrigatório: look into (investigar) algo, get along with (dar-se bem com) alguém.",["We will look into it — Vamos investigar isso"]],
+"Phrasal verbs 4":["Preste atenção na partícula: get over (superar) é diferente de get on (subir em) e de get off (descer de).",["I got over the flu — Eu me recuperei da gripe"]],
+"Expressões":["Expressões idiomáticas não se traduzem palavra por palavra. Aprenda o sentido inteiro.",["It's a piece of cake — É moleza"]],
+"Idioms 1":["Idioms têm sentido figurado. Aprenda cada um dentro de uma frase.",["It cost an arm and a leg — Custou uma fortuna"]]};
+const dgap=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
+const wkId=d=>{const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())),n=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-n);const y=new Date(Date.UTC(t.getUTCFullYear(),0,1));return t.getUTCFullYear()+"-W"+String(Math.ceil(((t-y)/864e5+1)/7)).padStart(2,"0")};
+const weekXP=()=>Object.entries(D.log||{}).reduce((s,[k,v])=>s+(wkId(new Date(k+"T12:00:00"))==wkId(new Date())?v:0),0);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>"&#"+c.charCodeAt(0)+";");
+const isSent=p=>p[0].trim().split(/\s+/).length>=3;
+const todayXP=()=>(D.log||{})[today()]||0;
+function normD(){D.log=D.log||{};D.goal=D.goal||20;D.miss=D.miss||{};D.ach=D.ach||{};D.freeze=D.freeze||0;D.perf=D.perf||0;D.seen=D.seen||{};D.rev=D.rev||0;D.rem=D.rem||"";D.best=Math.max(D.best||0,D.streak||0);
+if(D.last){const g=dgap(D.last,today());if(g>2||(g==2&&!D.freeze))D.streak=0}}
+function toast(t){const e=document.createElement("div");e.className="toast";e.innerHTML=t;e.style.top=(70+document.querySelectorAll(".toast").length*56)+"px";document.body.appendChild(e);setTimeout(()=>e.classList.add("show"),20);setTimeout(()=>{e.classList.remove("show");setTimeout(()=>e.remove(),400)},3400)}
+function addXP(x){D.xp+=x;D.log[today()]=(D.log[today()]||0)+x;if(D.log[today()]>=D.goal&&D.goalDay!=today()){D.goalDay=today();D.gems+=5;toast("🎯 <b>Meta diária batida!</b> +5 gemas")}}
+const doneN=()=>Object.keys(D.done).length;
+const wordsN=()=>{let n=0;L.forEach((u,ui)=>u.l.forEach((l,li)=>{if(D.done[ui+"-"+li])n+=l[1].split(";").length}));return n};
+const goalDays=()=>Object.values(D.log).filter(v=>v>=D.goal).length;
+const unitDone=u=>L[u].l.every((l,li)=>D.done[u+"-"+li]);
+const ACH=[["l1","🌱","Primeiro passo","Conclua 1 lição",()=>doneN()>=1],["l10","📘","Estudante","Conclua 10 lições",()=>doneN()>=10],["l25","📚","Dedicado","Conclua 25 lições",()=>doneN()>=25],["l50","🎓","Veterano","Conclua 50 lições",()=>doneN()>=50],["l100","🏆","Mestre dos mares","Conclua 100 lições",()=>doneN()>=100],
+["s3","🔥","Em chamas","3 dias seguidos",()=>D.best>=3],["s7","⚡","Semana perfeita","7 dias seguidos",()=>D.best>=7],["s30","🌋","Imparável","30 dias seguidos",()=>D.best>=30],
+["p1","💯","Sem errar","1 lição perfeita",()=>D.perf>=1],["p10","🎯","Precisão","10 lições perfeitas",()=>D.perf>=10],
+["w50","🔤","50 palavras","Aprenda 50 palavras",()=>wordsN()>=50],["w100","🗣️","100 palavras","Aprenda 100 palavras",()=>wordsN()>=100],["w300","🧠","300 palavras","Aprenda 300 palavras",()=>wordsN()>=300],
+["x500","⭐","500 XP","Some 500 XP",()=>D.xp>=500],["x2000","🌟","2.000 XP","Some 2.000 XP",()=>D.xp>=2000],["g7","📅","Meta em dia","Bata a meta 7 vezes",()=>goalDays()>=7],
+["c5","🎭","Colecionador","Tenha 5 personagens",()=>D.own.length>=5],["c12","👑","Elenco real","Tenha 12 personagens",()=>D.own.length>=12],["r10","🛠️","Caçador de erros","Faça 10 revisões",()=>D.rev>=10],
+["u1","🟢","Básico completo","Termine o Básico",()=>unitDone(0)],["u2","🔵","Médio completo","Termine o Médio",()=>unitDone(1)],["u3","🟣","Avançado completo","Termine o Avançado",()=>unitDone(2)]];
+function chkAch(){let n=0;ACH.forEach(a=>{if(!D.ach[a[0]]&&a[4]()){D.ach[a[0]]=today();D.gems+=10;n++;toast(`${a[1]} <b>Conquista:</b> ${a[2]} (+10 gemas)`)}});if(n)SFX.win();return n}
+const recMiss=e=>{const k=e.en+"|"+e.pt;D.miss[k]=(D.miss[k]||0)+1};
+const revPairs=()=>Object.entries(D.miss).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k])=>k.split("|"));
+const localSave=()=>{try{localStorage[K]=JSON.stringify(U)}catch(e){}};
 
-function start(u,l){const p=P(L[u].l[l][1]),ty=SR?["tr","li","rv","ty","sp"]:["tr","li","rv","ty"],q=sh(p),ex=[];
-for(let i=0;i<10;i++){const x=q[i%q.length];ex.push({t:ty[i%ty.length],en:x[0],pt:x[1]})}
-ls={u,l,ex:sh(ex),i:0,h:5,ok:0,p,lock:0,deck:sh(AV.map(a=>a[0]))};ask()}
+function start(u,l){const t=L[u].l[l][0];if(TIPS[t]&&!D.seen[t]){D.seen[t]=1;save();return tipView(u,l,t)}runLesson(u,l)}
+function tipView(u,l,t){$("#app").innerHTML=`<div class=ltop><a class=x onclick="SFX.click();home()">✕</a><div class=prog><i style="width:0"></i></div></div><div class=tip><h2>💡 Dica de gramática</h2><h3>${t}</h3><p>${TIPS[t][0]}</p><ul>${TIPS[t][1].map(x=>`<li>${x}</li>`).join("")}</ul></div><div class=dock><button class=btn onclick="SFX.click();runLesson(${u},${l})">Entendi, vamos lá</button></div>`}
+function startRev(){normD();if(!Object.keys(D.miss).length)return toast("Sem erros pendentes. Excelente!");runLesson(-1,-1,true)}
+function runLesson(u,l,rev){
+  const p=rev?revPairs():P(L[u].l[l][1]);
+  const sentL=p.filter(isSent).length>p.length/2;
+  const plan=sentL?["tr","bd","li","gp","rv","lp","ty","bd","gp","sp"]:["tr","li","mt","rv","lp","ty","tr","mt","rv","sp"];
+  const q=sh(p),ex=[];
+  plan.forEach((t,i)=>{if(t=="sp"&&!SR)t="rv";let x=q[i%q.length];
+    if((t=="bd"||t=="gp")&&!isSent(x)){const y=q.find(isSent);if(y)x=y;else t="rv"}
+    ex.push({t,en:x[0],pt:x[1]})});
+  const all=L.flatMap(a=>a.l.flatMap(b=>P(b[1]))),pool=p.length>=4?p:[...p,...sh(all).filter(x=>!p.some(y=>y[0]==x[0])).slice(0,6)];
+  ls={u,l,rev:!!rev,ex,i:0,h:5,ok:0,p,pool,lock:0,deck:sh(AV.map(a=>a[0]))};ask()}
 
 function ask(){
   if(ls.h<1)return fin(0);
   if(ls.i>=ls.ex.length)return fin(1);
   const e=ls.ex[ls.i];ls.lock=0;
-  ls.o=sh([e,...sh(ls.p.filter(x=>x[0]!=e.en)).slice(0,3).map(x=>({en:x[0],pt:x[1]}))]);
+  ls.o=sh([e,...sh(ls.pool.filter(x=>x[0]!=e.en)).slice(0,3).map(x=>({en:x[0],pt:x[1]}))]);
   const op=f=>ls.o.map((x,j)=>`<button class=opt id="opt_${j}" onclick="pk(${j})">${f(x)}</button>`).join("");
   const pl=`<button class="btn s g" onclick="SFX.click();say(ls.ex[ls.i].en)">🔊</button>`;
-  const qTip = QUOTES_ASK[ls.i % QUOTES_ASK.length], tc = ls.deck[ls.i % ls.deck.length];
-
+  const au=`<p><button class="btn big" onclick="SFX.click();say(ls.ex[ls.i].en)">🔊</button> <button class="btn s g" onclick="SFX.click();say(ls.ex[ls.i].en,.5)">🐢</button></p>`;
+  const qTip=QUOTES_ASK[ls.i%QUOTES_ASK.length],tc=ls.deck[ls.i%ls.deck.length];
   let b=`
   <div class="teacher">
     <div id="buddy" class="buddy-av">${cutImg(tc)}<span class="tname">Prof. ${AV.find(x=>x[0]==tc)[1]}</span></div>
     <div id="bspeech" class="buddy-speech">${qTip}</div>
   </div>`;
-
   if(e.t=="sp")b+=`<h3>Fale em voz alta</h3><div class=q>${e.en} ${pl}</div><p><button class="btn big" onclick="SFX.click();rec()">🎤</button></p><p id=h class=mut></p><button class="btn s g" onclick="if(!ls.lock)chk(false)">Pular</button>`;
   if(e.t=="tr")b+=`<h3>Como se diz em português?</h3><div class=q>${e.en} ${pl}</div>`+op(x=>x.pt);
   if(e.t=="rv")b+=`<h3>Traduza para o inglês</h3><div class=q>${e.pt}</div>`+op(x=>x.en);
-  if(e.t=="li")b+=`<h3>Toque no que você ouviu</h3><p><button class="btn big" onclick="SFX.click();say(ls.ex[ls.i].en)">🔊</button> <button class="btn s g" onclick="SFX.click();say(ls.ex[ls.i].en,.5)">🐢</button></p>`+op(x=>x.en);
-  if(e.t=="ty")b+=`<h3>Escreva o que você ouvir</h3><p><button class="btn big" onclick="SFX.click();say(ls.ex[ls.i].en)">🔊</button> <button class="btn s g" onclick="SFX.click();say(ls.ex[ls.i].en,.5)">🐢</button></p><input id=t autocomplete=off autocapitalize=off placeholder="Digite em inglês" onkeydown="if(event.key=='Enter')tyc()"><button class=btn onclick=tyc()>Verificar</button>`;
-
+  if(e.t=="li")b+=`<h3>Toque no que você ouviu</h3>${au}`+op(x=>x.en);
+  if(e.t=="lp")b+=`<h3>Ouça e escolha a tradução</h3>${au}`+op(x=>x.pt);
+  if(e.t=="ty")b+=`<h3>Escreva o que você ouvir</h3>${au}<input id=t autocomplete=off autocapitalize=off placeholder="Digite em inglês" onkeydown="if(event.key=='Enter')tyc()"><button class=btn onclick="tyc()">Verificar</button>`;
+  if(e.t=="bd"){const w=e.en.split(" "),wn=w.map(norm),ex2=sh([...new Set(ls.pool.flatMap(x=>x[0].split(" ")).filter(x=>norm(x)&&!wn.includes(norm(x))))]).slice(0,2);
+    ls.bd={sel:[],bank:sh([...w,...ex2])};b+=`<h3>Monte a frase em inglês</h3><div class=q>${e.pt}</div><div class=bdans id=bda></div><div class=bdbank id=bdb></div><button class=btn onclick="bdChk()">Verificar</button>`}
+  if(e.t=="gp"){const w=e.en.split(" "),cand=w.map((x,i)=>i).filter(i=>norm(w[i]).length>=3),gi=cand.length?cand[Math.random()*cand.length|0]:0;
+    e.gw=w[gi].replace(/[.,!?;:]+$/,"");const suf=(w[gi].match(/[.,!?;:]+$/)||[""])[0],ws=w.slice();ws[gi]="_____"+suf;
+    const dist=sh([...new Set(ls.pool.flatMap(x=>x[0].split(" ")).map(x=>x.replace(/[.,!?;:]+$/,"")).filter(x=>norm(x)&&norm(x)!=norm(e.gw)))]).slice(0,3);
+    ls.go=sh([e.gw,...dist]);b+=`<h3>Complete a frase</h3><div class=q>${ws.join(" ")}</div><p class=mut>${e.pt}</p>`+ls.go.map((x,j)=>`<button class=opt id="opt_${j}" onclick="gk(${j})">${x}</button>`).join("")}
+  if(e.t=="mt"){e.mp=[[e.en,e.pt],...sh(ls.pool.filter(x=>x[0]!=e.en)).slice(0,3)];const ix=e.mp.map((x,i)=>i);ls.mt={L:sh(ix),R:sh(ix),done:{},sel:null,err:0};b+=`<h3>Ligue os pares</h3><div id=mtbox></div>`}
   $("#app").innerHTML=`<div class=ltop><a class=x onclick="SFX.click();home()">✕</a><div class=prog><i style="width:${ls.i*10}%"></i></div><span class=hp>${I.heart}${ls.h}</span><button class=snd-btn onclick="toggleMute()">${muted?"🔇":"🔊"}</button></div>${b}<div id=fb></div>`;
-  if(e.t=="li"||e.t=="ty")setTimeout(()=>say(e.en),300);
+  if(e.t=="bd")bdDraw();if(e.t=="mt")mtDraw();
+  if(e.t=="li"||e.t=="ty"||e.t=="lp")setTimeout(()=>say(e.en),300);
   if(e.t=="ty")$("#t").focus();
 }
-
+function bdDraw(){const s=ls.bd;$("#bda").innerHTML=s.sel.map((i,k)=>`<button class="chip on" onclick="bdRm(${k})">${s.bank[i]}</button>`).join("")||'<span class=mut>Toque nas palavras abaixo</span>';
+$("#bdb").innerHTML=s.bank.map((w,i)=>`<button class=chip ${s.sel.includes(i)?"disabled":""} ${s.sel.includes(i)?"disabled":""} onclick="bdAdd(${i})">${w}</button>`).join("")}
+function bdAdd(i){if(ls.lock||ls.bd.sel.includes(i))return;SFX.opt();ls.bd.sel.push(i);bdDraw()}
+function bdRm(k){if(ls.lock)return;SFX.opt();ls.bd.sel.splice(k,1);bdDraw()}
+function bdChk(){if(ls.lock)return;const s=ls.bd;chk(norm(s.sel.map(i=>s.bank[i]).join(" "))==norm(ls.ex[ls.i].en))}
+function gk(j){if(ls.lock)return;SFX.opt();const e=ls.ex[ls.i],ok=norm(ls.go[j])==norm(e.gw),btn=$("#opt_"+j);if(btn)btn.classList.add(ok?"sel-ok":"sel-no");
+if(!ok){const r=ls.go.findIndex(x=>norm(x)==norm(e.gw));if($("#opt_"+r))$("#opt_"+r).classList.add("sel-ok")}chk(ok)}
+function mtDraw(){const m=ls.mt,mp=ls.ex[ls.i].mp,col=(s,arr,k)=>arr.map(i=>`<button class="mbtn ${m.done[i]?"md":""} ${m.sel&&m.sel.s==s&&m.sel.i==i?"msel":""}" ${m.done[i]?"disabled":""} onclick="mtPick('${s}',${i})">${mp[i][k]}</button>`).join("");
+$("#mtbox").innerHTML=`<div class=mt><div>${col("L",m.L,0)}</div><div>${col("R",m.R,1)}</div></div>`}
+function mtPick(s,i){if(ls.lock)return;SFX.opt();const m=ls.mt,e=ls.ex[ls.i];
+if(!m.sel||m.sel.s==s){m.sel={s,i};return mtDraw()}
+const a=m.sel.s=="L"?m.sel.i:i,b=m.sel.s=="L"?i:m.sel.i;m.sel=null;
+if(a==b){m.done[a]=1;if(Object.keys(m.done).length==e.mp.length){mtDraw();return chk(m.err==0)}}
+else{m.err++;SFX.no();recMiss({en:e.mp[a][0],pt:e.mp[a][1]})}
+mtDraw()}
 function rec(){if(ls.lock)return;const R=new SR(),w=norm(ls.ex[ls.i].en).split(" ");R.lang="en-US";R.maxAlternatives=3;
 R.onresult=v=>{const a=[...v.results[0]].map(x=>norm(x.transcript));$("#h").textContent="Ouvi: "+v.results[0][0].transcript;chk(a.some(t=>w.filter(x=>t.split(" ").includes(x)).length/w.length>=.8))};
 R.onerror=()=>$("#h").textContent="Não consegui ouvir. Permita o microfone e tente de novo.";R.start();$("#h").textContent="🎤 Ouvindo..."}
-
-function pk(j){
-  if(ls.lock) return;
-  SFX.opt();
-  const isOk = ls.o[j] === ls.ex[ls.i];
-  const btn = $("#opt_"+j);
-  if(btn) btn.classList.add(isOk ? "sel-ok" : "sel-no");
-  if(!isOk){
-    const rightIdx = ls.o.findIndex(x => x === ls.ex[ls.i]);
-    if($("#opt_"+rightIdx)) $("#opt_"+rightIdx).classList.add("sel-ok");
-  }
-  chk(isOk);
-}
-
+function pk(j){if(ls.lock)return;SFX.opt();const isOk=ls.o[j]===ls.ex[ls.i],btn=$("#opt_"+j);if(btn)btn.classList.add(isOk?"sel-ok":"sel-no");
+if(!isOk){const r=ls.o.findIndex(x=>x===ls.ex[ls.i]);if($("#opt_"+r))$("#opt_"+r).classList.add("sel-ok")}chk(isOk)}
 const tyc=()=>{if(!ls.lock)chk(norm($("#t").value)==norm(ls.ex[ls.i].en))};
-
 function chk(ok){
-  ls.lock=1;
-  document.querySelectorAll(".opt").forEach(b=>b.disabled=true);
-  const e=ls.ex[ls.i];
-  const buddy = $("#buddy");
-  const speech = $("#bspeech");
-
-  if(ok){
-    ls.ok++;
-    SFX.ok();
-    if(buddy) buddy.className = "buddy-av happy";
-    if(speech) speech.textContent = QUOTES_OK[Math.floor(Math.random()*QUOTES_OK.length)];
-  } else {
-    ls.h--;
-    SFX.no();
-    if(buddy) buddy.className = "buddy-av sad";
-    if(speech) speech.textContent = QUOTES_NO[Math.floor(Math.random()*QUOTES_NO.length)];
-  }
-
+  ls.lock=1;document.querySelectorAll(".opt,.chip,.mbtn").forEach(b=>b.disabled=true);
+  const e=ls.ex[ls.i],buddy=$("#buddy"),speech=$("#bspeech");
+  if(ok){ls.ok++;SFX.ok();if(buddy)buddy.className="buddy-av happy";if(speech)speech.textContent=QUOTES_OK[Math.floor(Math.random()*QUOTES_OK.length)];
+    if(ls.rev)(e.t=="mt"?e.mp:[[e.en,e.pt]]).forEach(x=>{const k=x[0]+"|"+x[1];if(D.miss[k]){D.miss[k]--;if(D.miss[k]<=0)delete D.miss[k]}})}
+  else{ls.h--;SFX.no();if(buddy)buddy.className="buddy-av sad";if(speech)speech.textContent=QUOTES_NO[Math.floor(Math.random()*QUOTES_NO.length)];if(e.t!="mt")recMiss(e)}
+  localSave();
+  const ans=e.t=="mt"?e.mp.map(x=>x[0]+" = "+x[1]).join(" · "):e.en+" ("+e.pt+")";
   const f=$("#fb");f.className=ok?"ok":"no";
-  f.innerHTML=`<div><span>${ok?"Correto!":"Resposta correta: "+e.en+" ("+e.pt+")"}</span><button class=btn onclick="SFX.click();ls.i++;ask()">Continuar</button></div>`;
-  if(!ok||e.t=="tr"||e.t=="rv")say(e.en);
+  f.innerHTML=`<div><span>${ok?"Correto!":"Resposta correta: "+ans}</span><button class=btn onclick="SFX.click();ls.i++;ask()">Continuar</button></div>`;
+  if(e.t!="mt"&&(!ok||["tr","rv","lp","bd","gp"].includes(e.t)))say(e.en);
 }
-
 function fin(w){let h="";
-if(w){
-  SFX.win();
-  const g=5+(ls.h==5?5:0),x=10+ls.ok,k=ls.u+"-"+ls.l,first=!D.done[k],gg=g+(first?5:0);D.done[k]=1;
-  if(D.last!=today()){D.streak=D.last==yest()?D.streak+1:1;D.last=today()}
-  D.xp+=x;D.gems+=gg;save();
-  h=`<div class=res>${avs(D.av,128)}<h1>Missão Concluída!</h1><div class=stats><div style="--c:#d49b00"><small>XP</small><b>${x}</b></div><div style="--c:#0f6d8c"><small>Gemas</small><b>${gg}</b></div><div style="--c:#2e9e3f"><small>Acertos</small><b>${ls.ok*10}%</b></div></div>${ls.h==5?"<p>Perfeito, sem perder nenhuma vida!</p>":""}</div>`}
-else {
-  SFX.no();
-  h=`<div class=res>${avs(D.av,128)}<h1>Sem Vidas</h1><p class=mut>Reorganize a estratégia e tente novamente.</p><button class="btn b" onclick="SFX.click();start(${ls.u},${ls.l})">Tentar de novo</button></div>`;
-}
+if(w){SFX.win();
+  const rev=ls.rev,perfect=ls.h==5,g=rev?3:5+(perfect?5:0),x=rev?5+ls.ok:10+ls.ok,k=ls.u+"-"+ls.l,first=!rev&&!D.done[k],gg=g+(first?5:0);
+  if(rev)D.rev++;else D.done[k]=1;if(perfect&&!rev)D.perf++;
+  if(D.last!=today()){const gp=D.last?dgap(D.last,today()):9;if(gp==1)D.streak++;else if(gp==2&&D.freeze>0){D.freeze--;D.streak++;toast("🛡️ Proteção de sequência usada!")}else D.streak=1;D.last=today()}
+  D.best=Math.max(D.best||0,D.streak);D.gems+=gg;addXP(x);chkAch();save();pushLeague();
+  h=`<div class=res>${avs(D.av,128)}<h1>${rev?"Revisão concluída!":"Missão Concluída!"}</h1><div class=stats><div style="--c:#d49b00"><small>XP</small><b>${x}</b></div><div style="--c:#0f6d8c"><small>Gemas</small><b>${gg}</b></div><div style="--c:#2e9e3f"><small>Acertos</small><b>${ls.ok*10}%</b></div></div><p class=mut>🎯 Meta de hoje: ${todayXP()}/${D.goal} XP</p>${perfect&&!rev?"<p>Perfeito, sem perder nenhuma vida!</p>":""}</div>`}
+else{SFX.no();save();
+  h=`<div class=res>${avs(D.av,128)}<h1>Sem Vidas</h1><p class=mut>Reorganize a estratégia e tente novamente.</p><button class="btn b" onclick="SFX.click();runLesson(${ls.u},${ls.l},${ls.rev})">Tentar de novo</button></div>`}
 $("#app").innerHTML=h+`<div class=dock><button class=btn onclick="SFX.click();home()">Continuar</button></div>`}
+
+function homeExtra(){const t=todayXP(),pc=Math.min(100,t/D.goal*100),nmi=Object.keys(D.miss).length,n=new Date(),hm=("0"+n.getHours()).slice(-2)+":"+("0"+n.getMinutes()).slice(-2);
+let h=`<div class=goalbar onclick="SFX.click();prog()"><div class=gbt><b>🎯 Meta diária</b><small>${t}/${D.goal} XP</small></div><div class=gb><i style="width:${pc}%"></i></div></div>`;
+if(D.rem&&D.last!=today()&&hm>=D.rem)h+=`<div class=banner>⏰ Você ainda não estudou hoje. Faça uma lição para manter a sequência!</div>`;
+if(nmi)h+=`<div class=chest onclick="SFX.click();startRev()"><span class=ico>🛠️</span><div><b>Revisar erros</b><small>${nmi} ${nmi>1?"palavras precisam":"palavra precisa"} de reforço</small></div></div>`;
+return h}
+function setGoal(n){D.goal=n;save();SFX.click();prog()}
+function buyFreeze(){if(D.freeze>=3)return toast("Você já tem o máximo (3).");if(D.gems<40){SFX.no();return toast("Gemas insuficientes (40).")}D.gems-=40;D.freeze++;save();SFX.chest();prog()}
+function setRem(on){if(!on){D.rem="";save();return prog()}
+if(!window.Notification)return toast("Seu navegador não suporta notificações.");
+Notification.requestPermission().then(p=>{if(p!="granted")return toast("Permissão de notificação negada.");D.rem=$("#remt").value||"19:00";save();toast("⏰ Lembrete ativado!");prog()})}
+function remCheck(){if(!D||!cur||!D.rem||!window.Notification||Notification.permission!="granted")return;const n=new Date(),hm=("0"+n.getHours()).slice(-2)+":"+("0"+n.getMinutes()).slice(-2);
+if(hm>=D.rem&&D.last!=today()&&localStorage.gle_rd!=today()){localStorage.gle_rd=today();try{new Notification("Grand Line English",{body:"Hora de estudar inglês! Mantenha sua sequência."})}catch(e){}}}
+function prog(){normD();const t=todayXP(),days=[...Array(7)].map((_,i)=>{const d=new Date(Date.now()-(6-i)*864e5);return[d.toLocaleDateString("sv"),d.toLocaleDateString("pt-BR",{weekday:"short"}).replace(".","")]}),
+mx=Math.max(D.goal*1.3,...days.map(d=>D.log[d[0]]||0)),miss=Object.entries(D.miss).sort((a,b)=>b[1]-a[1]).slice(0,8),got=ACH.filter(a=>D.ach[a[0]]).length;
+let h=hdr()+`<h2 class=sec>Meu progresso</h2>
+<div class=card2><b>🎯 Meta diária: ${t}/${D.goal} XP</b><div class=gb style="margin:10px 0"><i style="width:${Math.min(100,t/D.goal*100)}%"></i></div><div class=bar2>${[10,20,30,50].map(n=>`<button class="btn s ${D.goal==n?"":"b"}" onclick="setGoal(${n})">${n} XP</button>`).join("")}</div></div>
+<div class=card2><b>Últimos 7 dias</b><div class=chart>${days.map(d=>{const v=D.log[d[0]]||0;return`<div class=col><small>${v||""}</small><div class="bar ${v>=D.goal?"hit":""}" style="height:${Math.max(3,v/mx*100)}%"></div><em>${d[1]}</em></div>`}).join("")}</div><small class=mut>Barras verdes = meta batida</small></div>
+<div class=stat4><div><b>${D.xp}</b><small>XP total</small></div><div><b>${doneN()}</b><small>Lições</small></div><div><b>${wordsN()}</b><small>Palavras</small></div><div><b>${D.best}</b><small>Melhor sequência</small></div></div>
+<div class=card2><b>🛡️ Proteção de sequência: ${D.freeze}</b><p class=mut>Se você faltar um dia, uma proteção mantém sua sequência. Máximo de 3.</p><button class="btn s b" onclick="buyFreeze()">${I.gem}40 · Comprar</button></div>`;
+h+=miss.length?`<div class=card2><b>Palavras que você mais erra</b>${miss.map(([k,n])=>{const [en,pt]=k.split("|");return`<div class=mrow><span>${esc(en)} <small class=mut>${esc(pt)}</small></span><b>×${n}</b></div>`}).join("")}<button class=btn onclick="startRev()">Praticar erros</button></div>`:`<div class=card2><b>Palavras que você mais erra</b><p class=mut>Nenhum erro pendente. Continue assim!</p></div>`;
+h+=`<div class=card2><b>⏰ Lembrete diário</b><p class=mut>${D.rem?"Ativo às "+D.rem+". ":"Receba um aviso para estudar. "}Funciona com o app aberto em uma aba do navegador.</p><div class=nk><input type=time id=remt value="${D.rem||"19:00"}"><button class="btn s" onclick="SFX.click();setRem(${D.rem?0:1})">${D.rem?"Desativar":"Ativar"}</button></div></div>
+<h3 class=sec>Conquistas (${got}/${ACH.length})</h3><div class=badges>${ACH.map(a=>`<div class="bdg ${D.ach[a[0]]?"":"lock"}"><span>${a[1]}</span><b>${a[2]}</b><small>${a[3]}</small></div>`).join("")}</div>`;
+$("#app").innerHTML=h+nav("prog")}
+function pushLeague(){if(!cloud()||!uid||!D)return Promise.resolve();return sbf("/rest/v1/leaderboard",{method:"POST",headers:{Prefer:"resolution=merge-duplicates"},body:JSON.stringify({user_id:uid,nick:nm(),av:D.av,week:wkId(new Date()),xp:weekXP(),updated_at:new Date().toISOString()})}).catch(()=>{})}
+const LSQL=`create table if not exists leaderboard(user_id uuid primary key references auth.users, nick text, av text, week text, xp int default 0, updated_at timestamptz default now());
+alter table leaderboard enable row level security;
+drop policy if exists "ver" on leaderboard;
+create policy "ver" on leaderboard for select to authenticated using (true);
+drop policy if exists "meu" on leaderboard;
+create policy "meu" on leaderboard for all to authenticated using (auth.uid()=user_id) with check (auth.uid()=user_id);`;
+async function league(){normD();const h0=hdr()+`<h2 class=sec>Liga semanal</h2>`;
+if(!cloud()||!uid){$("#app").innerHTML=h0+`<div class=card2><p>A liga compara você com outros alunos e precisa da conta na nuvem (entrar com e-mail).</p></div>`+nav("league");return}
+$("#app").innerHTML=h0+`<p class=mut>Carregando ranking…</p>`+nav("league");
+try{await pushLeague();const r=await(await sbf("/rest/v1/leaderboard?select=user_id,nick,av,xp&week=eq."+wkId(new Date())+"&order=xp.desc&limit=30")).json();if(!Array.isArray(r))throw 0;
+const left=7-(new Date().getDay()||7),pos=r.findIndex(x=>x.user_id==uid)+1;
+$("#app").innerHTML=h0+`<p class=mut>${left?"A semana termina em "+left+(left>1?" dias":" dia")+" (domingo).":"A semana termina hoje!"} ${pos?"Você está em "+pos+"º lugar.":""} Seu XP na semana: <b>${weekXP()}</b></p>`+`<div class=card2 style="padding:4px">${r.map((x,i)=>`<div class="lrow ${x.user_id==uid?"me":""}"><span class=rk>${["🥇","🥈","🥉"][i]||i+1}</span>${avs(x.av,40)}<b>${esc(x.nick||"Aluno")}</b><span>${x.xp} XP</span></div>`).join("")||"<p class=mut>Ninguém pontuou ainda. Seja o primeiro!</p>"}</div>`+nav("league")}
+catch(e){$("#app").innerHTML=h0+`<div class=card2><p>Não consegui carregar a liga. Se for a primeira vez, falta criar a tabela no Supabase (SQL Editor):</p><pre>${esc(LSQL)}</pre></div>`+nav("league")}}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)remCheck()});setInterval(remCheck,30000);
 
 if(window.speechSynthesis)speechSynthesis.getVoices();
 (async()=>{const k=cloud()&&localStorage.gle_rt;if(!k)return home();rt=k;KEEP=1;$("#app").innerHTML="<p class=mut style='text-align:center;margin-top:30vh'>Entrando...</p>";try{const j=await refresh();await load(localStorage.gle_em||j.user.email)}catch(e){delete localStorage.gle_rt;rt=null;authView()}})();
